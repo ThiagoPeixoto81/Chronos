@@ -8,9 +8,7 @@ export default function Index() {
     <View style={styles.container}>
       <StatusBar hidden />
       <Navbar />
-
       <Actions />
-
       <Footer />
     </View>
   );
