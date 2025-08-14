@@ -43,12 +43,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "#fff",
   },
 
-  navbarText: {
-    fontSize: 20,
-    fontWeight: "900",
-    color: "#FFF",
-  },
-
   imgBack: {
     borderRadius: 30,
     opacity: 0.4,
@@ -59,6 +53,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 64,
     fontWeight: "bold",
+    fontFamily: "Poppins-Bold.ttf",
   },
 
   quote: {

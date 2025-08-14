@@ -1,12 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { MenuIcon } from "../Icons";
+import { Image, Pressable, StyleSheet, View } from "react-native";
+import { CloseIcon, MenuIcon } from "../Icons";
 
-export default function Navbar() {
+interface INavbar {
+  OnPress: () => void;
+  open: boolean;
+}
+
+export default function Navbar({ OnPress, open }: INavbar) {
   return (
     <View style={styles.navbar}>
-      <Text style={styles.navbarText}>Chronos</Text>
-      <MenuIcon />
+      <Image source={require("../../assets/images/logo.png")} />
+      <Pressable onPress={OnPress}>
+        {open ? <CloseIcon /> : <MenuIcon />}
+      </Pressable>
     </View>
   );
 }
@@ -19,11 +26,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#212020",
-  },
-
-  navbarText: {
-    fontSize: 20,
-    fontWeight: "900",
-    color: "#FFF",
   },
 });
