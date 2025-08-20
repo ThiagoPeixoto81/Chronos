@@ -2,6 +2,7 @@ import Actions from "@/components/Actions";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TimeChange from "@/components/TimeChange";
+import { FormProvider } from "@/contexts/FormContext/FormContext";
 
 import { useState } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
@@ -19,14 +20,14 @@ export default function Index() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden />
-
-      <Navbar OnPress={toggleOpen} open={open} />
-      {open ? <TimeChange /> : <Actions />}
-
-      <Footer />
-    </View>
+    <FormProvider>
+      <View style={styles.container}>
+        <StatusBar hidden />
+        <Navbar OnPress={toggleOpen} open={open} />
+        {open ? <TimeChange /> : <Actions />}
+        <Footer />
+      </View>
+    </FormProvider>
   );
 }
 

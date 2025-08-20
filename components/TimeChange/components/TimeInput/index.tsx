@@ -1,14 +1,20 @@
 import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
-export default function TimeInput() {
+interface ItimeInput {
+  inputValue: string;
+  onChange: (e: any) => void;
+}
+
+export default function TimeInput({ inputValue, onChange }: ItimeInput) {
   return (
     <TextInput
       style={styles.numberInput}
       keyboardType="numeric"
-      placeholder="00"
       placeholderTextColor={"#fff"}
       maxLength={2}
+      value={`${inputValue}`}
+      onChangeText={(e) => onChange(e)}
     />
   );
 }

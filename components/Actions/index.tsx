@@ -1,4 +1,5 @@
-import React from "react";
+import { FormContext } from "@/contexts/FormContext/FormContext";
+import React, { useContext, useRef, useState } from "react";
 import {
   ImageBackground,
   Pressable,
@@ -6,9 +7,63 @@ import {
   Text,
   View,
 } from "react-native";
-import { PlayIcon, SkipIcon } from "../Icons";
+import { PauseIcon, PlayIcon, SkipIcon } from "../Icons";
+import Timer from "./components/Timer";
 
 export default function Actions() {
+  const { PauseTime, SessionTime } = useContext(FormContext);
+
+  const [pause, setPause] = useState<boolean>(false);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const timerRef = useRef<null | number>(null);
+  const [timer, setTimer] = useState<number | null>(SessionTime);
+
+  const clear = () => {
+    if (timerRef.current != null) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+      setTimerRunning(false);
+    }
+  };
+
+  const toggleTimerType = () => {
+    setTimerRunning(false);
+
+    if (pause) {
+      setTimer(SessionTime);
+      setPause(false);
+      return;
+    }
+
+    setPause(true);
+    setTimer(PauseTime);
+    clear();
+  };
+
+  const toggleTimer = () => {
+    if (timerRef.current) {
+      clear();
+      return;
+    }
+
+    setTimerRunning(true);
+
+    const id = setInterval(() => {
+      setTimer((oldState) => {
+        if (oldState === 0) {
+          clear();
+          if (pause) {
+            return PauseTime;
+          }
+          return SessionTime;
+        }
+
+        return oldState! - 1;
+      });
+    }, 1000);
+    timerRef.current = id;
+  };
+
   return (
     <View style={{ width: "80%", gap: 36 }}>
       <ImageBackground
@@ -16,16 +71,16 @@ export default function Actions() {
         imageStyle={styles.imgBack}
         source={require("../../assets/images/batman.jpg")}
       >
-        <Text style={styles.timerText}>1:59:00</Text>
+        <Timer totalseconds={timer}></Timer>
         <Text style={styles.quote}>vulgar display of power</Text>
       </ImageBackground>
 
       <View style={styles.buttonsWrapper}>
-        <Pressable style={styles.button}>
-          <PlayIcon />
+        <Pressable style={styles.button} onPress={toggleTimer}>
+          {timerRunning ? <PauseIcon /> : <PlayIcon />}
         </Pressable>
 
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={toggleTimerType}>
           <SkipIcon />
         </Pressable>
       </View>
@@ -46,14 +101,6 @@ const styles = StyleSheet.create({
   imgBack: {
     borderRadius: 30,
     opacity: 0.4,
-  },
-
-  timerText: {
-    textAlign: "center",
-    color: "#fff",
-    fontSize: 64,
-    fontWeight: "bold",
-    fontFamily: "Poppins-Bold.ttf",
   },
 
   quote: {
