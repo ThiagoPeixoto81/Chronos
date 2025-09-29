@@ -1,4 +1,4 @@
-# Chronos - Aplicativo de Pomodoro
+# Chronos
 
 Chronos é um aplicativo de **Pomodoro** desenvolvido em **React Native** com **TypeScript**, projetado para gerenciar o tempo de uma sessão de estudo ou trabalho de forma eficiente e organizada.
 
