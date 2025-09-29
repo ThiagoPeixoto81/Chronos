@@ -8,7 +8,7 @@ Resolvi fazer esse projeto para testar um pouco dos meus conhecimentos iniciais 
 
 ## 📝 Funcionalidades Atuais
 
-- Timer de Pomodoro configurável, você pode escolher o tempo da sessão e o de tempo de pausa.
+- Timer de Pomodoro configurável, você pode escolher o tempo da sessão e o tempo de pausa.
 - Interface simples e intuitiva
 - Contagem regressiva visual do tempo
 
