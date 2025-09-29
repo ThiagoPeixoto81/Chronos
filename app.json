@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thiago.peixoto.Chronos"
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +30,7 @@
       [
         "expo-splash-screen",
         {
-          "image": ["./assets/images/splash-icon.png"],
+          "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -38,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "21da3ae7-a070-4dfd-b007-173ab46681fd"
+      }
     }
   }
 }
