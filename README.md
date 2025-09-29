@@ -32,5 +32,6 @@ Resolvi fazer esse projeto para testar um pouco dos meus conhecimentos iniciais 
 
 ## 📸 Screenshots
 
-<img src="assets/images/screenshot1.jpeg" width="200"/>
-<img src="assets/images/screenshot2.jpeg" width="200"/>
+<div style="display: flex; gap: 10px;"><img src="assets/images/screenshot1.jpeg" width="200"/>
+<img src="assets/images/screenshot2.jpeg" width="200"/></div>
+
