@@ -32,5 +32,5 @@ Resolvi fazer esse projeto para testar um pouco dos meus conhecimentos iniciais 
 
 ## 📸 Screenshots
 
-Tela Inicial do App:  
-![Tela Inicial](assets/images/screenshot1.jpeg)
+<img src="assets/images/screenshot1.jpeg" width="200"/>
+<img src="assets/images/screenshot2.jpeg" width="200"/>
