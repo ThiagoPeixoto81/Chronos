@@ -2,7 +2,7 @@ import Actions from "@/components/Actions";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TimeChange from "@/components/TimeChange";
-import { FormProvider } from "@/contexts/FormContext/FormContext";
+import { FormProvider } from "@/contexts/SessionTimeContext/SessionTimeContext";
 
 import { useState } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";

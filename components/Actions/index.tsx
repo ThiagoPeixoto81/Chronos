@@ -1,4 +1,3 @@
-import { FormContext } from "@/contexts/FormContext/FormContext";
 import React, { useContext, useRef, useState } from "react";
 import {
   ImageBackground,
@@ -9,10 +8,10 @@ import {
 } from "react-native";
 import { PauseIcon, PlayIcon, SkipIcon } from "../Icons";
 import Timer from "./components/Timer";
+import { SessionTimeContext } from "@/contexts/SessionTimeContext/SessionTimeContext";
 
 export default function Actions() {
-  const { PauseTime, SessionTime } = useContext(FormContext);
-
+  const { PauseTime, SessionTime } = useContext(SessionTimeContext);
   const [pause, setPause] = useState<boolean>(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const timerRef = useRef<null | number>(null);
@@ -61,7 +60,7 @@ export default function Actions() {
         return oldState! - 1;
       });
     }, 1000);
-    timerRef.current = id;
+    timerRef.current = Number(id);
   };
 
   return (

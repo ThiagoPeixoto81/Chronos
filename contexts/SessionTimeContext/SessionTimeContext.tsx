@@ -1,6 +1,6 @@
 import { Dispatch, JSX, createContext, useState } from "react";
 
-export type FormContextType = {
+export type SessionTimeContextType = {
   SessionTime: number | null;
   setSessionTime: Dispatch<React.SetStateAction<number | null>>;
 
@@ -8,8 +8,8 @@ export type FormContextType = {
   setPauseTime: Dispatch<React.SetStateAction<number | null>>;
 };
 
-export const FormContext = createContext<FormContextType>(
-  {} as FormContextType
+export const SessionTimeContext = createContext<SessionTimeContextType>(
+  {} as SessionTimeContextType
 );
 
 export function FormProvider({ children }: { children: JSX.Element }) {
@@ -17,10 +17,10 @@ export function FormProvider({ children }: { children: JSX.Element }) {
   const [PauseTime, setPauseTime] = useState<number | null>(60);
 
   return (
-    <FormContext.Provider
+    <SessionTimeContext.Provider
       value={{ SessionTime, setSessionTime, PauseTime, setPauseTime }}
     >
       {children}
-    </FormContext.Provider>
+    </SessionTimeContext.Provider>
   );
 }

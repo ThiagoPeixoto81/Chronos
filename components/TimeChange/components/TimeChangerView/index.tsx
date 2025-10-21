@@ -1,4 +1,4 @@
-import { FormContext } from "@/contexts/FormContext/FormContext";
+import { SessionTimeContext } from "@/contexts/SessionTimeContext/SessionTimeContext";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import TimeInput from "../TimeInput";
@@ -25,7 +25,7 @@ export default function TimerChangerView({
 
   const secondsInitial = String(InitialTimer! % 60).padStart(2, "0");
 
-  const { setPauseTime, setSessionTime } = useContext(FormContext);
+  const { setPauseTime, setSessionTime } = useContext(SessionTimeContext);
   const [hours, setHours] = useState<string>(hoursInitial);
   const [minutes, setMinutes] = useState<string>(minutesInitial);
   const [seconds, setSeconds] = useState<string>(secondsInitial);
