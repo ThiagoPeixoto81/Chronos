@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ImageBackground,
   Pressable,
@@ -13,13 +13,17 @@ import useBell from "@/hooks/useBell";
 import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
 
 export default function Actions() {
-  const { PauseTime, SessionTime } = useSessionTime();
+  const { PauseTime, SessionTime, isLoading } = useSessionTime();
   const [pause, setPause] = useState<boolean>(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const timerRef = useRef<null | number>(null);
-  const [timer, setTimer] = useState<number | null>(SessionTime);
+  const [timer, setTimer] = useState<number | null>(null);
   const { playAlarm } = useBell();
   const { theme, timerPhrase, timerImage } = useUserChoice();
+
+  useEffect(() => {
+    setTimer(SessionTime);
+  }, [isLoading, SessionTime]);
 
   const clear = () => {
     if (timerRef.current != null) {
@@ -70,10 +74,27 @@ export default function Actions() {
 
   return (
     <View style={{ width: "80%", gap: 36 }}>
-      <View style={[styles.actions, { backgroundColor: theme.secondary }]}>
-        <Timer totalseconds={timer}></Timer>
-        <Text style={styles.quote}>{timerPhrase}</Text>
-      </View>
+      {timerImage ? (
+        <ImageBackground
+          style={styles.actions}
+          imageStyle={styles.imgBack}
+          source={{ uri: timerImage }}
+        >
+          {!isLoading ? (
+            <>
+              <Timer totalseconds={timer}></Timer>
+              <Text style={styles.quote}>{timerPhrase}</Text>
+            </>
+          ) : (
+            <Text style={styles.quote}>Aguarde...</Text>
+          )}
+        </ImageBackground>
+      ) : (
+        <View style={[styles.actions, { backgroundColor: theme.secondary }]}>
+          <Timer totalseconds={timer}></Timer>
+          <Text style={styles.quote}>{timerPhrase}</Text>
+        </View>
+      )}
 
       <View style={styles.buttonsWrapper}>
         <Pressable
@@ -111,10 +132,11 @@ const styles = StyleSheet.create({
   quote: {
     textAlign: "center",
     color: "#ffffff60",
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: "400",
     position: "absolute",
     bottom: 50,
+    paddingHorizontal: 10,
   },
 
   buttonsWrapper: {

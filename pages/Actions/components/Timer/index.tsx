@@ -24,6 +24,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 64,
     fontWeight: "bold",
-    fontFamily: "Poppins-Bold.ttf",
   },
 });

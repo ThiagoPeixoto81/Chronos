@@ -1,28 +1,19 @@
-import { SessionTimeContext } from "@/contexts/SessionTimeContext";
-import React, { useContext, useState } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-} from "react-native";
+import React from "react";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import TimerChangerView from "./components/TimeChangerView";
-import { ImageIcon } from "../../components/Icons";
 import PaletteSelector from "./components/PaletteSelector";
 import { useSessionTime } from "@/contexts/SessionTimeContext/useSessionTime";
 import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
+import ImageButton from "./components/ImagePicker";
 
 export default function TimeChange() {
-  const [phraseLength, setPhraseLength] = useState<number>(0);
   const { PauseTime, SessionTime } = useSessionTime();
-  const { timerImage, setTimerImage, timerPhrase, setTimerPhrase } =
+  const { timerImage, saveTimerImage, timerPhrase, savePhrase } =
     useUserChoice();
 
   const handleChange = (p: any) => {
-    setTimerPhrase(p);
+    savePhrase(p);
   };
 
   async function pickImage() {
@@ -32,19 +23,14 @@ export default function TimeChange() {
     });
 
     if (!result.canceled) {
-      setTimerImage(result.assets[0].uri);
+      saveTimerImage(result.assets[0].uri);
     }
   }
 
   return (
     <View style={styles.generalWrapper}>
       <View style={styles.inputAndImageEntry}>
-        <View style={{ gap: 5 }}>
-          <Pressable style={styles.addImageButton} onPress={pickImage}>
-            <ImageIcon />
-          </Pressable>
-          <Text style={styles.themeLabel}>Image</Text>
-        </View>
+        <ImageButton onPress={pickImage} timerImage={timerImage} />
 
         <View>
           <TextInput
@@ -105,16 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-end",
     flexDirection: "row",
-  },
-
-  addImageButton: {
-    width: 105,
-    height: 105,
-    borderRadius: 10,
-    backgroundColor: "#ffffff20",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   themeLabel: {

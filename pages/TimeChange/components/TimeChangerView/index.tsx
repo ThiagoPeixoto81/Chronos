@@ -25,7 +25,7 @@ export default function TimerChangerView({
 
   const secondsInitial = String(InitialTimer! % 60).padStart(2, "0");
 
-  const { setPauseTime, setSessionTime } = useContext(SessionTimeContext);
+  const { savePauseTime, saveSessionTime } = useContext(SessionTimeContext);
   const [hours, setHours] = useState<string>(hoursInitial);
   const [minutes, setMinutes] = useState<string>(minutesInitial);
   const [seconds, setSeconds] = useState<string>(secondsInitial);
@@ -35,11 +35,11 @@ export default function TimerChangerView({
       Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds);
 
     if (isSession) {
-      setSessionTime(totalSeconds);
+      saveSessionTime(totalSeconds);
     } else {
-      setPauseTime(totalSeconds);
+      savePauseTime(totalSeconds);
     }
-  }, [hours, minutes, seconds, setSessionTime, setPauseTime, isSession]);
+  }, [hours, minutes, seconds, saveSessionTime, savePauseTime, isSession]);
 
   return (
     <View style={styles.timerChanger}>

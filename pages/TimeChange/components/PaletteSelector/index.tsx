@@ -16,7 +16,7 @@ export default function PaletteSelector() {
     { primary: "#0E4C57", secondary: "#136978" },
   ];
 
-  const { theme, setTheme } = useUserChoice();
+  const { theme, saveColors } = useUserChoice();
 
   return (
     <View
@@ -27,7 +27,7 @@ export default function PaletteSelector() {
           key={index}
           color={colorPair.primary}
           onPress={() => {
-            setTheme({
+            saveColors({
               primary: colorPair.primary,
               secondary: colorPair.secondary,
             });
