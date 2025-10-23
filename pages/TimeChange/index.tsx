@@ -1,18 +1,46 @@
-import { SessionTimeContext } from "@/contexts/SessionTimeContext/SessionTimeContext";
-import React, { useContext } from "react";
-import { Pressable, StyleSheet, View, Text, TextInput } from "react-native";
+import { SessionTimeContext } from "@/contexts/SessionTimeContext";
+import React, { useContext, useState } from "react";
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Image,
+} from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import TimerChangerView from "./components/TimeChangerView";
-import { ImageIcon } from "../Icons";
+import { ImageIcon } from "../../components/Icons";
 import PaletteSelector from "./components/PaletteSelector";
+import { useSessionTime } from "@/contexts/SessionTimeContext/useSessionTime";
+import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
 
 export default function TimeChange() {
-  const { PauseTime, SessionTime } = useContext(SessionTimeContext);
+  const [phraseLength, setPhraseLength] = useState<number>(0);
+  const { PauseTime, SessionTime } = useSessionTime();
+  const { timerImage, setTimerImage, timerPhrase, setTimerPhrase } =
+    useUserChoice();
+
+  const handleChange = (p: any) => {
+    setTimerPhrase(p);
+  };
+
+  async function pickImage() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setTimerImage(result.assets[0].uri);
+    }
+  }
 
   return (
     <View style={styles.generalWrapper}>
       <View style={styles.inputAndImageEntry}>
         <View style={{ gap: 5 }}>
-          <Pressable style={styles.addImageButton}>
+          <Pressable style={styles.addImageButton} onPress={pickImage}>
             <ImageIcon />
           </Pressable>
           <Text style={styles.themeLabel}>Image</Text>
@@ -22,11 +50,15 @@ export default function TimeChange() {
           <TextInput
             style={styles.numberInput}
             keyboardType="default"
+            value={timerPhrase ? timerPhrase : ""}
             maxLength={110}
             multiline={true}
             numberOfLines={4}
+            onChangeText={handleChange}
           />
+
           <View style={styles.underscore}></View>
+
           <View
             style={{
               display: "flex",
@@ -35,7 +67,9 @@ export default function TimeChange() {
             }}
           >
             <Text style={styles.themeLabel}>Frase</Text>
-            <Text style={styles.themeLabel}>0/126</Text>
+            <Text style={styles.themeLabel}>{`${
+              timerPhrase ? timerPhrase.length : "0"
+            }/110`}</Text>
           </View>
         </View>
       </View>

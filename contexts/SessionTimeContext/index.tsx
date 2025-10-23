@@ -12,7 +12,7 @@ export const SessionTimeContext = createContext<SessionTimeContextType>(
   {} as SessionTimeContextType
 );
 
-export function FormProvider({ children }: { children: JSX.Element }) {
+export function SessionTimeProvider({ children }: { children: JSX.Element }) {
   const [SessionTime, setSessionTime] = useState<number | null>(3600);
   const [PauseTime, setPauseTime] = useState<number | null>(60);
 

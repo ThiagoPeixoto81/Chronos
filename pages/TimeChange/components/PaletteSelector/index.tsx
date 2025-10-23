@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
 import ColorPickerButton from "./Components/ColorPickerButton";
+import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
 
 export default function PaletteSelector() {
   const palette = [
@@ -15,10 +16,23 @@ export default function PaletteSelector() {
     { primary: "#0E4C57", secondary: "#136978" },
   ];
 
+  const { theme, setTheme } = useUserChoice();
+
   return (
-    <View style={styles.colorPickerView}>
+    <View
+      style={[styles.colorPickerView, { backgroundColor: theme.secondary }]}
+    >
       {palette.map((colorPair, index) => (
-        <ColorPickerButton key={index} color={colorPair.primary} />
+        <ColorPickerButton
+          key={index}
+          color={colorPair.primary}
+          onPress={() => {
+            setTheme({
+              primary: colorPair.primary,
+              secondary: colorPair.secondary,
+            });
+          }}
+        />
       ))}
     </View>
   );

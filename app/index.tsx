@@ -1,43 +1,20 @@
-import Actions from "@/components/Actions";
+import Actions from "@/pages/Actions";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import TimeChange from "@/components/TimeChange";
-import { FormProvider } from "@/contexts/SessionTimeContext/SessionTimeContext";
-
+import TimeChange from "@/pages/TimeChange";
+import { SessionTimeProvider } from "@/contexts/SessionTimeContext";
 import { useState } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
+import { UserChoiceProvider } from "@/contexts/UserChoiceContext";
+import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
+import App from "./main";
 
 export default function Index() {
-  const [open, setOpen] = useState(false);
-
-  const toggleOpen = () => {
-    if (open) {
-      setOpen(false);
-      return;
-    }
-
-    setOpen(true);
-  };
-
   return (
-    <FormProvider>
-      <View style={styles.container}>
-        <StatusBar hidden />
-        <Navbar OnPress={toggleOpen} open={open} />
-        {open ? <TimeChange /> : <Actions />}
-        <Footer />
-      </View>
-    </FormProvider>
+    <UserChoiceProvider>
+      <SessionTimeProvider>
+        <App />
+      </SessionTimeProvider>
+    </UserChoiceProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#212020",
-    paddingVertical: 60,
-    // fontFamily: "Inter",
-  },
-});

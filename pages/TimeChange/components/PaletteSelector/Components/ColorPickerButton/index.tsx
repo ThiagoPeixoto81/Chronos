@@ -3,12 +3,14 @@ import React from "react";
 
 interface IColorPicker {
   color: string;
+  onPress: () => void;
 }
 
-export default function ColorPickerButton({ color }: IColorPicker) {
+export default function ColorPickerButton({ color, onPress }: IColorPicker) {
   return (
     <Pressable
       style={[styles.colorpickerButton, { backgroundColor: color }]}
+      onPress={onPress}
     ></Pressable>
   );
 }

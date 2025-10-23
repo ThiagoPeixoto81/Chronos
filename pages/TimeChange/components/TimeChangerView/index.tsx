@@ -1,4 +1,4 @@
-import { SessionTimeContext } from "@/contexts/SessionTimeContext/SessionTimeContext";
+import { SessionTimeContext } from "@/contexts/SessionTimeContext";
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import TimeInput from "../TimeInput";

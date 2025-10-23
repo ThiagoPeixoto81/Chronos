@@ -6,16 +6,20 @@ import {
   Text,
   View,
 } from "react-native";
-import { PauseIcon, PlayIcon, SkipIcon } from "../Icons";
+import { PauseIcon, PlayIcon, SkipIcon } from "../../components/Icons";
+import { useSessionTime } from "@/contexts/SessionTimeContext/useSessionTime";
 import Timer from "./components/Timer";
-import { SessionTimeContext } from "@/contexts/SessionTimeContext/SessionTimeContext";
+import useBell from "@/hooks/useBell";
+import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
 
 export default function Actions() {
-  const { PauseTime, SessionTime } = useContext(SessionTimeContext);
+  const { PauseTime, SessionTime } = useSessionTime();
   const [pause, setPause] = useState<boolean>(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const timerRef = useRef<null | number>(null);
   const [timer, setTimer] = useState<number | null>(SessionTime);
+  const { playAlarm } = useBell();
+  const { theme, timerPhrase, timerImage } = useUserChoice();
 
   const clear = () => {
     if (timerRef.current != null) {
@@ -51,6 +55,7 @@ export default function Actions() {
       setTimer((oldState) => {
         if (oldState === 0) {
           clear();
+          playAlarm();
           if (pause) {
             return PauseTime;
           }
@@ -65,21 +70,23 @@ export default function Actions() {
 
   return (
     <View style={{ width: "80%", gap: 36 }}>
-      <ImageBackground
-        style={styles.actions}
-        imageStyle={styles.imgBack}
-        source={require("../../assets/images/batman.jpg")}
-      >
+      <View style={[styles.actions, { backgroundColor: theme.secondary }]}>
         <Timer totalseconds={timer}></Timer>
-        <Text style={styles.quote}>vulgar display of power</Text>
-      </ImageBackground>
+        <Text style={styles.quote}>{timerPhrase}</Text>
+      </View>
 
       <View style={styles.buttonsWrapper}>
-        <Pressable style={styles.button} onPress={toggleTimer}>
+        <Pressable
+          style={[styles.button, { backgroundColor: theme.secondary }]}
+          onPress={toggleTimer}
+        >
           {timerRunning ? <PauseIcon /> : <PlayIcon />}
         </Pressable>
 
-        <Pressable style={styles.button} onPress={toggleTimerType}>
+        <Pressable
+          style={[styles.button, { backgroundColor: theme.secondary }]}
+          onPress={toggleTimerType}
+        >
           <SkipIcon />
         </Pressable>
       </View>
@@ -94,7 +101,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
-    // backgroundColor: "#fff",
   },
 
   imgBack: {
@@ -104,7 +110,7 @@ const styles = StyleSheet.create({
 
   quote: {
     textAlign: "center",
-    color: "#ffffff40",
+    color: "#ffffff60",
     fontSize: 11,
     fontWeight: "400",
     position: "absolute",
@@ -119,7 +125,6 @@ const styles = StyleSheet.create({
   button: {
     width: 145,
     height: 145,
-    backgroundColor: "#242424",
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
