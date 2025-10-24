@@ -9,8 +9,8 @@ import {
 import { PauseIcon, PlayIcon, SkipIcon } from "../../components/Icons";
 import { useSessionTime } from "@/contexts/SessionTimeContext/useSessionTime";
 import Timer from "./components/Timer";
-import useBell from "@/hooks/useBell";
 import { useUserChoice } from "@/contexts/UserChoiceContext/useUserChoice";
+import Modal from "@/components/Modal";
 
 export default function Actions() {
   const { PauseTime, SessionTime, isLoading } = useSessionTime();
@@ -18,8 +18,8 @@ export default function Actions() {
   const [timerRunning, setTimerRunning] = useState(false);
   const timerRef = useRef<null | number>(null);
   const [timer, setTimer] = useState<number | null>(null);
-  const { playAlarm } = useBell();
   const { theme, timerPhrase, timerImage } = useUserChoice();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setTimer(SessionTime);
@@ -58,8 +58,8 @@ export default function Actions() {
     const id = setInterval(() => {
       setTimer((oldState) => {
         if (oldState === 0) {
+          setShowModal(true);
           clear();
-          playAlarm();
           if (pause) {
             return PauseTime;
           }
@@ -72,8 +72,18 @@ export default function Actions() {
     timerRef.current = Number(id);
   };
 
+  const closeModal = () => {
+    toggleTimerType();
+    setShowModal(false);
+  };
+
   return (
     <View style={{ width: "80%", gap: 36 }}>
+      {showModal && (
+        <>
+          <Modal OnPress={closeModal} />
+        </>
+      )}
       {timerImage ? (
         <ImageBackground
           style={styles.actions}
